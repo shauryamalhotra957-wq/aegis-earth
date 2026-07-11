@@ -1,0 +1,17 @@
+{
+  "name": "Aegis Earth",
+  "short_name": "Aegis",
+  "description": "A disaster resilience command center for explainable response planning.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
