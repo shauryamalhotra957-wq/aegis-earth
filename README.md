@@ -4,6 +4,15 @@ Aegis Earth is a ship-ready public-good demo: a disaster resilience command cent
 
 It is intentionally self-contained. The core engine runs locally, the demo data is synthetic and documented, and optional live weather alerts can be pulled from the National Weather Service when the browser has network access.
 
+## Project Snapshot
+
+| Area | Detail |
+| --- | --- |
+| Experience | Public-good disaster resilience command center |
+| Core system | Risk scoring, trust scoring, resource allocation, equity checks, 72-hour simulation |
+| Design signal | Executive decision-room workflow with pitch deck and exportable brief |
+| Quality signal | TypeScript, React, unit tests, production build, architecture and security docs |
+
 ## Why This Project
 
 Emergency teams already have satellites, weather feeds, drone imagery, reports, maps, shelters, hospitals, and responder rosters. The difficult part is not "more data"; it is deciding what to do first, why that decision is fair, and how the plan changes when conditions worsen.
