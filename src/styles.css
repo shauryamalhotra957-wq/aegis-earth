@@ -102,6 +102,35 @@ a {
   gap: 8px;
 }
 
+.view-switch {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(78px, 1fr));
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px;
+  background: #ffffff;
+}
+
+.view-switch button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 30px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.view-switch button.is-active {
+  color: #ffffff;
+  background: #111827;
+}
+
 .system-badge,
 .status-pill {
   min-height: 32px;
@@ -123,9 +152,99 @@ a {
   background: #ecfdf3;
 }
 
+.decision-brief {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.25fr) minmax(150px, 0.72fr) 18px minmax(190px, 0.9fr) 18px minmax(160px, 0.78fr) auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  border: 1px solid var(--line);
+  border-left: 5px solid #2563eb;
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.brief-lead {
+  min-width: 0;
+}
+
+.brief-lead h2 {
+  margin: 0 0 5px;
+  font-size: 1.28rem;
+  line-height: 1.1;
+}
+
+.brief-lead span {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.brief-step {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  min-height: 66px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #f8fafc;
+}
+
+.brief-step > svg {
+  color: #2563eb;
+}
+
+.brief-step span,
+.brief-step strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brief-step span {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.brief-step strong {
+  font-size: 0.9rem;
+}
+
+.brief-arrow {
+  justify-self: center;
+  color: #98a2b3;
+}
+
+.brief-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 13px;
+  color: #ffffff;
+  background: #111827;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
   gap: 10px;
   margin-bottom: 10px;
 }
@@ -205,6 +324,14 @@ a {
   grid-template-columns: minmax(250px, 0.82fr) minmax(520px, 1.8fr) minmax(310px, 1fr);
   gap: 10px;
   align-items: stretch;
+}
+
+.operations-grid.is-focus {
+  grid-template-columns: minmax(250px, 0.72fr) minmax(560px, 1.72fr) minmax(320px, 0.9fr);
+}
+
+.operations-grid.is-focus .map-stage {
+  height: 500px;
 }
 
 .left-column,
@@ -764,11 +891,24 @@ footer {
 }
 
 @media (max-width: 1120px) {
-  .metrics-grid {
-    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  .decision-brief {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .brief-lead,
+  .brief-toggle {
+    grid-column: 1 / -1;
+  }
+
+  .brief-arrow {
+    display: none;
   }
 
   .operations-grid {
+    grid-template-columns: minmax(230px, 0.8fr) minmax(480px, 1.6fr);
+  }
+
+  .operations-grid.is-focus {
     grid-template-columns: minmax(230px, 0.8fr) minmax(480px, 1.6fr);
   }
 
@@ -790,6 +930,11 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .operations-grid.is-focus,
+  .operations-grid.is-full {
+    grid-template-columns: 1fr;
+  }
+
   .topbar {
     display: grid;
   }
@@ -798,7 +943,15 @@ footer {
     grid-template-columns: repeat(2, minmax(140px, 1fr));
   }
 
+  .decision-brief {
+    grid-template-columns: 1fr;
+  }
+
   .map-stage {
+    height: 420px;
+  }
+
+  .operations-grid.is-focus .map-stage {
     height: 420px;
   }
 
@@ -832,7 +985,15 @@ footer {
     width: 100%;
   }
 
+  .view-switch {
+    width: 100%;
+  }
+
   .map-stage {
+    height: 360px;
+  }
+
+  .operations-grid.is-focus .map-stage {
     height: 360px;
   }
 

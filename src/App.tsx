@@ -4,10 +4,13 @@ import {
   AlertOctagon,
   Globe2,
   HeartPulse,
+  LayoutDashboard,
+  ListFilter,
   Shield,
   UsersRound
 } from "lucide-react";
 import { CommandMap } from "./components/CommandMap";
+import { DecisionBrief } from "./components/DecisionBrief";
 import { EquityGuard } from "./components/EquityGuard";
 import { IntelPanel } from "./components/IntelPanel";
 import { MetricTile } from "./components/MetricTile";
@@ -42,11 +45,14 @@ const defaultControls: ScenarioControls = {
 const average = (values: number[]) =>
   values.length === 0 ? 0 : values.reduce((sum, value) => sum + value, 0) / values.length;
 
+type ViewMode = "focus" | "full";
+
 export default function App() {
   const [controls, setControls] = useLocalStorage<ScenarioControls>(
     "aegis-earth-controls",
     defaultControls
   );
+  const [viewMode, setViewMode] = useLocalStorage<ViewMode>("aegis-earth-view-mode", "focus");
   const [selectedRegionId, setSelectedRegionId] = useState(regions[1].id);
   const live = useLiveSignals();
 
@@ -71,6 +77,9 @@ export default function App() {
     risks.find((risk) => risk.regionId === selectedRegion.id) ?? risks[0];
   const globalReadiness = average(risks.map((risk) => risk.confidence));
   const globalRisk = average(risks.map((risk) => risk.totalRisk));
+  const selectedActions = plan.selected.filter((action) => action.regionId === selectedRegion.id);
+  const primaryAction = selectedActions[0] ?? plan.selected[0];
+  const isFullView = viewMode === "full";
 
   const exportBrief = () => {
     const brief: ExecutiveBrief = {
@@ -98,10 +107,37 @@ export default function App() {
           </div>
         </div>
         <div className="topbar-actions">
+          <div className="view-switch" aria-label="View mode">
+            <button
+              className={!isFullView ? "is-active" : ""}
+              type="button"
+              onClick={() => setViewMode("focus")}
+            >
+              <ListFilter size={15} aria-hidden="true" />
+              Focus
+            </button>
+            <button
+              className={isFullView ? "is-active" : ""}
+              type="button"
+              onClick={() => setViewMode("full")}
+            >
+              <LayoutDashboard size={15} aria-hidden="true" />
+              Full
+            </button>
+          </div>
           <span className="system-badge">synthetic demo data</span>
           <span className="system-badge strong">AI decision engine online</span>
         </div>
       </header>
+
+      <DecisionBrief
+        selectedRegion={selectedRegion}
+        selectedRisk={selectedRisk}
+        primaryAction={primaryAction}
+        scenario={scenario}
+        advanced={isFullView}
+        onToggleAdvanced={() => setViewMode(isFullView ? "focus" : "full")}
+      />
 
       <section className="metrics-grid" aria-label="Global metrics">
         <MetricTile
@@ -132,16 +168,18 @@ export default function App() {
           icon={HeartPulse}
           tone="violet"
         />
-        <MetricTile
-          label="Sheltered"
-          value={scenario.final.peopleSheltered.toLocaleString()}
-          detail="evacuated or stabilized"
-          icon={UsersRound}
-          tone="blue"
-        />
+        {isFullView && (
+          <MetricTile
+            label="Sheltered"
+            value={scenario.final.peopleSheltered.toLocaleString()}
+            detail="evacuated or stabilized"
+            icon={UsersRound}
+            tone="blue"
+          />
+        )}
       </section>
 
-      <section className="operations-grid">
+      <section className={`operations-grid ${isFullView ? "is-full" : "is-focus"}`}>
         <div className="left-column">
           <RegionRoster
             regions={regions}
@@ -149,7 +187,7 @@ export default function App() {
             selectedRegionId={selectedRegion.id}
             onSelectRegion={setSelectedRegionId}
           />
-          <ResourceBoard plan={plan} />
+          {isFullView && <ResourceBoard plan={plan} />}
         </div>
 
         <div className="center-column">
@@ -169,20 +207,24 @@ export default function App() {
             plan={plan}
             onExportBrief={exportBrief}
           />
-          <SignalBoard
-            signals={scoredSignals}
-            selectedRegion={selectedRegion}
-            liveStatus={live.status}
-            liveMessage={live.message}
-            onRefreshLive={() => live.refresh(selectedRegion)}
-          />
+          {isFullView && (
+            <SignalBoard
+              signals={scoredSignals}
+              selectedRegion={selectedRegion}
+              liveStatus={live.status}
+              liveMessage={live.message}
+              onRefreshLive={() => live.refresh(selectedRegion)}
+            />
+          )}
         </div>
       </section>
 
-      <section className="bottom-grid">
-        <MissionTimeline result={scenario} />
-        <EquityGuard regions={regions} risks={risks} plan={plan} />
-      </section>
+      {isFullView && (
+        <section className="bottom-grid">
+          <MissionTimeline result={scenario} />
+          <EquityGuard regions={regions} risks={risks} plan={plan} />
+        </section>
+      )}
 
       <footer>
         Research demo. Not an official emergency system. Use verified local authorities for real crises.
