@@ -96,6 +96,12 @@ export default function App() {
 
   return (
     <main className="app-shell">
+      <div className="earth-entry" aria-hidden="true">
+        <div>
+          <span>Aegis Earth</span>
+          <strong>Risk network coming online</strong>
+        </div>
+      </div>
       <header className="topbar">
         <div className="brand">
           <span className="brand-mark">
@@ -138,6 +144,25 @@ export default function App() {
         advanced={isFullView}
         onToggleAdvanced={() => setViewMode(isFullView ? "focus" : "full")}
       />
+
+      <section className="mission-rail" aria-label="Current command context">
+        <article>
+          <span>Watch focus</span>
+          <strong>{selectedRegion.name}</strong>
+        </article>
+        <article>
+          <span>Risk load</span>
+          <strong>{percent(selectedRisk?.totalRisk ?? 0)}%</strong>
+        </article>
+        <article>
+          <span>Live signals</span>
+          <strong>{scoredSignals.length}</strong>
+        </article>
+        <article>
+          <span>Budget used</span>
+          <strong>{plan.budgetUsed}</strong>
+        </article>
+      </section>
 
       <section className="metrics-grid" aria-label="Global metrics">
         <MetricTile
@@ -226,8 +251,16 @@ export default function App() {
         </section>
       )}
 
-      <footer>
-        Research demo. Not an official emergency system. Use verified local authorities for real crises.
+      <footer className="earth-footer">
+        <div>
+          <strong>Aegis Earth</strong>
+          <span>Research demo. Not an official emergency system. Use verified local authorities for real crises.</span>
+        </div>
+        <nav aria-label="Footer status">
+          <span>Ethical floor {percent(safeControls.ethicalFloor)}%</span>
+          <span>{viewMode} view</span>
+          <span>{live.status}</span>
+        </nav>
       </footer>
     </main>
   );
