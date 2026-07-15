@@ -59,3 +59,7 @@ This project was shaped by public disaster-data and AI-for-social-good research 
 ## Safety Note
 
 Aegis Earth is a research and portfolio demo. It is not an official emergency management system, and it should not be used as the sole basis for real emergency decisions without domain review, verified data, and institutional approval.
+
+## Experience Design
+
+The climate intelligence interface follows the [Aegis Earth design system](design-system/aegis-earth/MASTER.md), balancing dense environmental data with calm hierarchy, accessible focus states, responsive panels, and restrained motion.

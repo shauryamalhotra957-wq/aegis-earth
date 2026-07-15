@@ -1,0 +1,58 @@
+:root {
+  --experience-ring: rgba(99, 216, 149, 0.76);
+  --experience-shadow: 0 24px 72px rgba(0, 0, 0, 0.38);
+}
+
+html { scrollbar-gutter: stable; }
+::selection { color: #07110c; background: var(--green); }
+
+:where(button, input, select, textarea) {
+  min-block-size: 44px;
+  touch-action: manipulation;
+}
+
+button:not(:disabled) {
+  min-block-size: 44px;
+}
+
+.map-marker,
+.icon-button {
+  min-inline-size: 44px;
+}
+
+:where(input, select, textarea) { font-size: max(1rem, 16px); }
+
+:where(button, input, select, textarea, a):focus-visible {
+  outline: 3px solid var(--experience-ring);
+  outline-offset: 3px;
+}
+
+:where(.panel, .metric, .decision-brief, .map-panel, .action-row, .region-row) {
+  border-radius: 18px;
+  border-color: rgba(232, 238, 242, 0.16);
+}
+
+:where(.panel, .decision-brief, .map-panel) {
+  background-image: linear-gradient(150deg, rgba(20, 30, 39, 0.96), rgba(10, 17, 24, 0.9));
+  box-shadow: var(--experience-shadow), inset 0 1px rgba(255, 255, 255, 0.035);
+}
+
+:where(.metric, .action-row, .region-row) {
+  transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.metric, .action-row, .region-row):hover {
+    border-color: rgba(99, 216, 149, 0.34);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell { padding: 12px; }
+  :where(.panel, .metric, .decision-brief, .map-panel) { border-radius: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

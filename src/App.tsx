@@ -31,6 +31,7 @@ import { useLiveSignals } from "./hooks/useLiveSignals";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import type { ExecutiveBrief, ScenarioControls } from "./types/domain";
 import "./styles.css";
+import "./experience.css";
 
 const defaultControls: ScenarioControls = {
   budget: 520,
