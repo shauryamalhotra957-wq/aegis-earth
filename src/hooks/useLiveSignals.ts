@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CrisisSignal, HazardKind, Region } from "../types/domain";
 
 interface NwsAlertFeature {
@@ -54,8 +54,18 @@ export const useLiveSignals = () => {
     "idle"
   );
   const [message, setMessage] = useState("Local synthetic feed active");
+  const latestRequestId = useRef(0);
+
+  useEffect(
+    () => () => {
+      latestRequestId.current += 1;
+    },
+    []
+  );
 
   const refresh = useCallback(async (region: Region) => {
+    const requestId = ++latestRequestId.current;
+    setSignals([]);
     if (!region.country.includes("United States")) {
       setStatus("unsupported");
       setMessage("NWS live alerts cover United States coordinates; local feed remains active.");
@@ -71,6 +81,7 @@ export const useLiveSignals = () => {
       );
       if (!response.ok) throw new Error(`NWS ${response.status}`);
       const payload = (await response.json()) as NwsAlertResponse;
+      if (requestId !== latestRequestId.current) return;
       const converted =
         payload.features?.slice(0, 8).map((feature, index) => {
           const event = feature.properties.event ?? "Weather alert";
@@ -95,6 +106,7 @@ export const useLiveSignals = () => {
           : "No active NWS alerts for this point"
       );
     } catch (error) {
+      if (requestId !== latestRequestId.current) return;
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Live feed failed");
     }
