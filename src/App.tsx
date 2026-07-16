@@ -21,7 +21,11 @@ import { ScenarioLab } from "./components/ScenarioLab";
 import { SignalBoard } from "./components/SignalBoard";
 import { logisticsHubs, regions, resources, signals } from "./data/seed";
 import { buildExecutiveBrief } from "./engine/brief";
-import { createDownload, sanitizeScenarioControls } from "./engine/safety";
+import {
+  createDownload,
+  DEFAULT_SCENARIO_CONTROLS,
+  sanitizeScenarioControls
+} from "./engine/safety";
 import { optimizeResponse } from "./engine/optimizer";
 import { percent } from "./engine/math";
 import { scoreRegions } from "./engine/riskEngine";
@@ -33,16 +37,6 @@ import type { ExecutiveBrief, ScenarioControls } from "./types/domain";
 import "./styles.css";
 import "./experience.css";
 
-const defaultControls: ScenarioControls = {
-  budget: 520,
-  maxTeams: 8,
-  ethicalFloor: 0.62,
-  climateStress: 0.48,
-  infrastructureShock: 0.34,
-  publicTrust: 0.68,
-  mode: "surge"
-};
-
 const average = (values: number[]) =>
   values.length === 0 ? 0 : values.reduce((sum, value) => sum + value, 0) / values.length;
 
@@ -51,7 +45,7 @@ type ViewMode = "focus" | "full";
 export default function App() {
   const [controls, setControls] = useLocalStorage<ScenarioControls>(
     "aegis-earth-controls",
-    defaultControls
+    DEFAULT_SCENARIO_CONTROLS
   );
   const [viewMode, setViewMode] = useLocalStorage<ViewMode>("aegis-earth-view-mode", "focus");
   const [selectedRegionId, setSelectedRegionId] = useState(regions[1].id);
