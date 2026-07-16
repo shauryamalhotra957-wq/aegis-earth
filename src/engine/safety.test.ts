@@ -30,4 +30,39 @@ describe("safety utilities", () => {
   it("falls back when persisted JSON is malformed", () => {
     expect(safeJsonParse("{bad", { ok: true })).toEqual({ ok: true });
   });
+
+  it("restores safe defaults for missing and non-finite persisted controls", () => {
+    const controls = sanitizeScenarioControls({
+      budget: Number.NaN,
+      maxTeams: Number.POSITIVE_INFINITY,
+      mode: "unknown"
+    });
+
+    expect(controls).toEqual({
+      budget: 520,
+      maxTeams: 8,
+      ethicalFloor: 0.62,
+      climateStress: 0.48,
+      infrastructureShock: 0.34,
+      publicTrust: 0.68,
+      mode: "surge"
+    });
+    expect(
+      Object.values(controls).every(
+        (value) => typeof value !== "number" || Number.isFinite(value)
+      )
+    ).toBe(true);
+  });
+
+  it("accepts null persisted controls without crashing", () => {
+    expect(sanitizeScenarioControls(null)).toEqual({
+      budget: 520,
+      maxTeams: 8,
+      ethicalFloor: 0.62,
+      climateStress: 0.48,
+      infrastructureShock: 0.34,
+      publicTrust: 0.68,
+      mode: "surge"
+    });
+  });
 });
