@@ -119,6 +119,7 @@ export default function App() {
               className={!isFullView ? "is-active" : ""}
               type="button"
               onClick={() => setViewMode("focus")}
+              aria-pressed={!isFullView}
             >
               <ListFilter size={15} aria-hidden="true" />
               Focus
@@ -127,6 +128,7 @@ export default function App() {
               className={isFullView ? "is-active" : ""}
               type="button"
               onClick={() => setViewMode("full")}
+              aria-pressed={isFullView}
             >
               <LayoutDashboard size={15} aria-hidden="true" />
               Full

@@ -75,6 +75,7 @@ export const CommandMap = ({
     if (!canvas) return undefined;
     const context = canvas.getContext("2d");
     if (!context) return undefined;
+    const motionQuery = window.matchMedia?.("(prefers-reduced-motion: reduce)");
     let frame = 0;
     let animation = 0;
 
@@ -153,11 +154,21 @@ export const CommandMap = ({
       });
 
       frame += 1;
-      animation = window.requestAnimationFrame(draw);
+      animation = motionQuery?.matches ? 0 : window.requestAnimationFrame(draw);
+    };
+
+    const handleMotionPreference = () => {
+      window.cancelAnimationFrame(animation);
+      animation = 0;
+      draw();
     };
 
     draw();
-    return () => window.cancelAnimationFrame(animation);
+    motionQuery?.addEventListener("change", handleMotionPreference);
+    return () => {
+      window.cancelAnimationFrame(animation);
+      motionQuery?.removeEventListener("change", handleMotionPreference);
+    };
   }, [regions, riskByRegion, selectedRegionId]);
 
   return (
@@ -172,9 +183,10 @@ export const CommandMap = ({
         </span>
       </div>
       <div className="map-stage">
-        <canvas ref={canvasRef} aria-label="Animated world risk map" />
+        <canvas ref={canvasRef} aria-hidden="true" />
         {regions.map((region) => {
           const risk = riskByRegion.get(region.id)?.totalRisk ?? 0;
+          const isSelected = selectedRegionId === region.id;
           const style = {
             left: `${((region.lon + 180) / 360) * 100}%`,
             top: `${((90 - region.lat) / 180) * 100}%`
@@ -182,12 +194,14 @@ export const CommandMap = ({
           return (
             <button
               key={region.id}
-              className={`map-marker ${selectedRegionId === region.id ? "is-selected" : ""}`}
+              className={`map-marker ${isSelected ? "is-selected" : ""}`}
               data-region-id={region.id}
               data-testid={`map-marker-${region.id}`}
               style={style}
               type="button"
               onClick={() => onSelectRegion(region.id)}
+              aria-label={`${region.name}, ${region.country}: ${percent(risk)}% risk`}
+              aria-pressed={isSelected}
               title={`${region.name}: ${percent(risk)}% risk`}
             >
               <MapPin size={15} aria-hidden="true" />

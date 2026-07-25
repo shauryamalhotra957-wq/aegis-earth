@@ -36,6 +36,7 @@ export const RegionRoster = ({
               data-testid={`region-row-${region.id}`}
               type="button"
               onClick={() => onSelectRegion(region.id)}
+              aria-pressed={selectedRegionId === region.id}
             >
               <span className="rank">{String(index + 1).padStart(2, "0")}</span>
               <span className="region-copy">

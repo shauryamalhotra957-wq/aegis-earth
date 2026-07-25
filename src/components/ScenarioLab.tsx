@@ -32,6 +32,7 @@ export const ScenarioLab = ({ controls, setControls, result }: ScenarioLabProps)
               type="button"
               className={controls.mode === mode.id ? "is-active" : ""}
               onClick={() => setControls({ ...controls, mode: mode.id })}
+              aria-pressed={controls.mode === mode.id}
             >
               {mode.label}
             </button>
