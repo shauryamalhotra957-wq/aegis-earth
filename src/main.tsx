@@ -11,7 +11,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 if ("serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("/sw.js").catch(() => {
-      // Offline support is opportunistic; the app must still run if registration fails.
     });
   });
 }
