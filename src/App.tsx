@@ -19,6 +19,7 @@ import { RegionRoster } from "./components/RegionRoster";
 import { ResourceBoard } from "./components/ResourceBoard";
 import { ScenarioLab } from "./components/ScenarioLab";
 import { SignalBoard } from "./components/SignalBoard";
+import { EvacuationPanel } from "./components/EvacuationPanel";
 import { logisticsHubs, regions, resources, signals } from "./data/seed";
 import { buildExecutiveBrief } from "./engine/brief";
 import { createDownload, sanitizeScenarioControls } from "./engine/safety";
@@ -247,6 +248,7 @@ export default function App() {
 
       {isFullView && (
         <section className="bottom-grid">
+          <EvacuationPanel regions={regions} logisticsHubs={logisticsHubs} />
           <MissionTimeline result={scenario} />
           <EquityGuard regions={regions} risks={risks} plan={plan} />
         </section>
