@@ -1,11 +1,11 @@
-﻿import React from "react";
+import React from "react";
 import { Navigation, AlertTriangle, ShieldCheck, Clock, Users, ArrowRight } from "lucide-react";
 import { EvacuationRouter, type EvacuationNode, type EvacuationRouteResult } from "../engine/evacuationRouter";
-import type { Region } from "../types/domain";
+import type { Region, LogisticsHub } from "../types/domain";
 
 interface EvacuationPanelProps {
   regions: Region[];
-  logisticsHubs: Array<{ id: string; name: string; capacity: number }>;
+  logisticsHubs: LogisticsHub[];
 }
 
 export const EvacuationPanel: React.FC<EvacuationPanelProps> = ({ regions, logisticsHubs }) => {
@@ -13,8 +13,8 @@ export const EvacuationPanel: React.FC<EvacuationPanelProps> = ({ regions, logis
     id: r.id,
     name: r.name,
     population: r.population,
-    hazardRisk: r.vulnerabilityIndex,
-    roadAccessScore: r.infrastructureReadiness,
+    hazardRisk: r.vulnerability,
+    roadAccessScore: r.infrastructure.roadAccess,
     shelterCapacity: 5000,
     currentSheltered: 1200,
   }));

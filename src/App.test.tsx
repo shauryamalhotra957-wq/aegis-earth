@@ -26,6 +26,7 @@ describe("Aegis Earth app", () => {
 
     expect(screen.getByText("Trust Feed")).toBeInTheDocument();
     expect(screen.getByText("Resource Stack")).toBeInTheDocument();
+    expect(screen.getByText("Dynamic Evacuation Corridors & Shelters")).toBeInTheDocument();
   });
 
   it("updates the selected region from the triage roster", () => {

@@ -91,6 +91,7 @@ export interface LogisticsHub {
   lat: number;
   lon: number;
   readiness: number;
+  capacity?: number;
 }
 
 export interface RiskScore {
