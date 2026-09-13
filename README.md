@@ -1,5 +1,8 @@
 # Aegis Earth
 
+[![CI](https://github.com/shauryamalhotra957-wq/aegis-earth/actions/workflows/ci.yml/badge.svg)](https://github.com/shauryamalhotra957-wq/aegis-earth/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 Aegis Earth is a ship-ready public-good demo: a disaster resilience command center that turns noisy crisis signals into explainable risk scores, ranked interventions, equity checks, and a 72-hour response simulation.
 
 It is intentionally self-contained. The core engine runs locally, the demo data is synthetic and documented, and optional live weather alerts can be pulled from the National Weather Service when the browser has network access.
